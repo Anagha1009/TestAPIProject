@@ -14,6 +14,8 @@ using System.Threading.Tasks;
 using Data.Entities;
 using Microsoft.EntityFrameworkCore;
 using Test_API.Configurations;
+using Data.IRepositories;
+using Data.Repositories;
 
 namespace Test_API
 {
@@ -34,13 +36,15 @@ namespace Test_API
             );
 
             services.AddAutoMapper(typeof(MapperInitializer));
+
+            services.AddTransient<IUnitofWork, UnitofWork>();
             
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Test_API", Version = "v1" });
             });
 
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson(o=>o.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -61,7 +65,7 @@ namespace Test_API
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
-            {
+            {               
                 endpoints.MapControllers();
             });
         }
