@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Data.Entities
 {
-    public class DatabaseContext:DbContext
+    public class DatabaseContext:IdentityDbContext<ApiUser>
     {
         public DatabaseContext(DbContextOptions options):base(options)
         {
@@ -15,6 +16,7 @@ namespace Data.Entities
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Country>().HasData(
                                                     new Country { Id = 1, Name = "India", ShortName = "Ind" },
                                                     new Country { Id = 2, Name = "Germany", ShortName = "Ger" },

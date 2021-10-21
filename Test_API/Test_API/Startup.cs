@@ -35,6 +35,10 @@ namespace Test_API
                 options.UseSqlServer(Configuration.GetConnectionString("constDb"))
             );
 
+            services.AddAuthentication();
+
+            services.ConfigureIdentity();
+
             services.AddAutoMapper(typeof(MapperInitializer));
 
             services.AddTransient<IUnitofWork, UnitofWork>();
